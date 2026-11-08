@@ -3,242 +3,241 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="color-scheme" content="light dark">
-  <meta name="theme-color" content="#f1f5f9" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0b1120" media="(prefers-color-scheme: dark)">
+  <meta name="color-scheme" content="light">
+  <meta name="theme-color" content="#f5fbf9">
   <title>Lab Attendance</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%234f46e5'/%3E%3Cpath d='m9 16.5 4.5 4.5L23 11.5' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='10' fill='%230f766e'/%3E%3Cpath d='m9 16.5 4.5 4.5L23 11.5' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <style>
-    /* Colour tokens: slate neutrals, deep-indigo accent; emerald = present, amber = late, rose = absent. Dark mode follows the device. */
+    /* A light, airy look: mint-cream backgrounds, teal accent, soft coloured statuses. Light only, on purpose. */
     :root {
-      --bg:#f1f5f9; --surface:#fff; --surface-2:#f8fafc; --line:#e2e8f0; --line-2:#cbd5e1;
-      --text:#0f172a; --muted:#475569; --subtle:#64748b;
-      --accent:#4f46e5; --accent-2:#4338ca; --accent-soft:#eef2ff; --accent-ink:#4338ca;
-      --ok:#047857; --ok-soft:#ecfdf5; --ok-line:#a7f3d0; --ok-dot:#10b981;
-      --warn:#b45309; --warn-soft:#fffbeb; --warn-line:#fde68a; --warn-dot:#f59e0b;
-      --bad:#b91c1c; --bad-soft:#fef2f2; --bad-line:#fecaca; --bad-dot:#ef4444;
-      --glass:rgba(255,255,255,.8); --glow:rgba(79,70,229,.10);
-      --shadow-sm:0 1px 2px rgba(15,23,42,.06);
-      --shadow:0 1px 2px rgba(15,23,42,.04), 0 8px 24px -10px rgba(15,23,42,.14);
-      --shadow-pop:0 14px 36px -10px rgba(15,23,42,.3), 0 2px 6px rgba(15,23,42,.08);
-      --ring:0 0 0 3px rgba(79,70,229,.28);
+      color-scheme: light;
+      --bg:#f5fbf9; --surface:#fff; --surface-2:#f1f8f6; --line:#dcebe7; --line-2:#c4dcd6;
+      --text:#18312d; --muted:#455b56; --subtle:#566d68;
+      --brand:#0f766e; --brand-2:#115e59; --brand-soft:#e3f5f1; --brand-ink:#0f766e;
+      --ok:#166534; --ok-soft:#e8f7ed; --ok-line:#bde5c9; --ok-solid:#15803d; --ok-dot:#22a55b;
+      --late:#92400e; --late-soft:#fff3d6; --late-line:#f5d98f; --late-solid:#b45309; --late-dot:#e08a0b;
+      --bad:#9f1239; --bad-soft:#ffe8ee; --bad-line:#f9bccb; --bad-solid:#be123c; --bad-dot:#e5485f;
+      --none:#a9bfb9; --track:#e4eeeb;
+      --shadow-sm:0 1px 2px rgba(24,49,45,.06);
+      --shadow:0 1px 2px rgba(24,49,45,.04), 0 14px 30px -16px rgba(15,118,110,.28);
+      --shadow-pop:0 20px 44px -16px rgba(24,49,45,.38), 0 2px 8px rgba(24,49,45,.08);
+      --ring:0 0 0 3px rgba(15,118,110,.25);
     }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --bg:#0b1120; --surface:#111a2e; --surface-2:#0e1627; --line:#1f2a40; --line-2:#334155;
-        --text:#e2e8f0; --muted:#a5b1c2; --subtle:#8b9ab0;
-        --accent:#4f46e5; --accent-2:#5a52e8; --accent-soft:rgba(99,102,241,.16); --accent-ink:#a5b4fc;
-        --ok:#6ee7b7; --ok-soft:rgba(16,185,129,.14); --ok-line:rgba(52,211,153,.35);
-        --warn:#fcd34d; --warn-soft:rgba(245,158,11,.14); --warn-line:rgba(251,191,36,.35);
-        --bad:#fca5a5; --bad-soft:rgba(239,68,68,.14); --bad-line:rgba(248,113,113,.38);
-        --glass:rgba(11,17,32,.78); --glow:rgba(99,102,241,.2);
-        --shadow-sm:0 1px 2px rgba(0,0,0,.4);
-        --shadow:0 1px 2px rgba(0,0,0,.3), 0 8px 24px -10px rgba(0,0,0,.55);
-        --shadow-pop:0 16px 40px -10px rgba(0,0,0,.75), 0 2px 6px rgba(0,0,0,.4);
-        --ring:0 0 0 3px rgba(129,140,248,.4);
-      }
-    }
-
     *, *::before, *::after { box-sizing:border-box; }
     [hidden] { display:none !important; }
-    html { -webkit-text-size-adjust:100%; scroll-padding-top:84px; }
+    html { -webkit-text-size-adjust:100%; }
     body {
       margin:0; min-height:100vh; color:var(--text); -webkit-font-smoothing:antialiased;
-      font:15px/1.5 Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background:radial-gradient(900px 320px at 50% -80px, var(--glow), transparent 70%), var(--bg);
+      font:16px/1.5 ui-rounded, "Nunito", "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+      background:radial-gradient(900px 460px at 0% -10%, #dcf4ec, transparent 62%), radial-gradient(820px 460px at 100% 110%, #e2eefc, transparent 62%), var(--bg);
     }
     h1, h2, p { margin:0; }
-    button { font:inherit; color:inherit; }
+    button, input, select { font:inherit; color:inherit; }
     .sr-only { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
-    .wrap { max-width:1120px; margin:0 auto; padding:0 24px; }
     .icon { width:18px; height:18px; flex:none; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 
-    /* ---- top bar ---- */
-    .topbar {
-      position:sticky; top:0; z-index:30; background:var(--glass); border-bottom:1px solid var(--line);
-      -webkit-backdrop-filter:saturate(180%) blur(12px); backdrop-filter:saturate(180%) blur(12px);
+    /* ---- page frame: sidebar + board ---- */
+    .app { display:grid; grid-template-columns:304px minmax(0, 1fr); min-height:100vh; }
+    .side {
+      position:sticky; top:0; align-self:start; height:100vh; overflow-y:auto; display:flex; flex-direction:column; gap:26px; padding:26px 22px;
+      background:rgba(255,255,255,.78); border-right:1px solid var(--line); -webkit-backdrop-filter:blur(12px); backdrop-filter:blur(12px);
     }
-    .bar { display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:64px; }
-    .brand { display:flex; align-items:center; gap:12px; font-size:1.0625rem; font-weight:700; letter-spacing:-.01em; }
-    .logo {
-      display:grid; place-items:center; width:36px; height:36px; border-radius:10px; color:#fff;
-      background:linear-gradient(135deg, #6366f1, #4338ca); box-shadow:0 2px 8px rgba(67,56,202,.4);
+    .side-brand { display:grid; grid-template-columns:44px minmax(0, 1fr); grid-template-areas:"mark name" "mark conn"; column-gap:12px; align-items:center; }
+    .mark {
+      grid-area:mark; display:grid; place-items:center; width:44px; height:44px; border-radius:14px; color:#fff;
+      background:linear-gradient(140deg, #2dd4bf, #0f766e); box-shadow:0 10px 20px -10px rgba(15,118,110,.8);
     }
-    .bar-right { display:flex; align-items:center; gap:12px; }
-    .conn {
-      display:inline-flex; align-items:center; gap:8px; padding:6px 12px; border:1px solid var(--line); border-radius:999px;
-      background:var(--surface); color:var(--muted); font-size:.8125rem; font-weight:600; white-space:nowrap;
-    }
-    .dot { width:8px; height:8px; border-radius:50%; background:var(--warn-dot); }
+    .brand-name { grid-area:name; font-size:1.0625rem; font-weight:800; letter-spacing:-.01em; line-height:1.2; }
+    .conn { grid-area:conn; display:inline-flex; align-items:center; gap:7px; font-size:.78rem; font-weight:700; color:var(--muted); }
+    .dot { width:8px; height:8px; border-radius:50%; background:var(--late-dot); }
     .conn[data-state=loading] .dot { animation:pulse 1.2s ease-in-out infinite; }
-    .conn[data-state=ok] .dot { background:var(--ok-dot); box-shadow:0 0 0 3px rgba(16,185,129,.2); }
-    .conn[data-state=error] .dot { background:var(--bad-dot); box-shadow:0 0 0 3px rgba(239,68,68,.2); }
-    .keyfield {
-      display:flex; align-items:center; gap:8px; height:38px; padding:0 12px; border:1px solid var(--line-2); border-radius:10px;
-      background:var(--surface); color:var(--subtle); box-shadow:var(--shadow-sm);
-      transition:border-color .15s, box-shadow .15s, color .15s;
-    }
-    .keyfield:hover { border-color:var(--subtle); }
-    .keyfield:focus-within { border-color:var(--accent); box-shadow:var(--ring); }
-    .keyfield.on { color:var(--ok); }
-    .keyfield input { width:132px; height:100%; padding:0; border:0; outline:0; background:transparent; color:var(--text); font:inherit; }
-    .keyfield input::placeholder { color:var(--subtle); }
+    .conn[data-state=ok] .dot { background:var(--ok-dot); box-shadow:0 0 0 3px rgba(34,165,91,.2); }
+    .conn[data-state=error] .dot { background:var(--bad-dot); box-shadow:0 0 0 3px rgba(229,72,95,.2); }
 
-    /* ---- page header + summary tiles ---- */
-    main { padding-top:28px; padding-bottom:64px; }
-    .page-head { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:20px; }
-    h1 { font-size:1.625rem; line-height:1.2; font-weight:700; letter-spacing:-.02em; }
-    .sub { margin-top:6px; color:var(--muted); }
-    .actions { display:flex; gap:8px; }
-    .stats { display:grid; grid-template-columns:repeat(4, minmax(0, 1fr)); gap:16px; margin-bottom:20px; }
-    .tile { position:relative; padding:18px 20px; border:1px solid var(--line); border-radius:16px; background:var(--surface); box-shadow:var(--shadow); }
-    .tile-label { font-size:.8125rem; font-weight:600; color:var(--muted); }
-    .tile-value { margin-top:4px; font-size:1.875rem; font-weight:700; line-height:1.1; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
-    .tile-sub { margin-top:6px; font-size:.8125rem; color:var(--subtle); }
-    .tile-ico {
-      position:absolute; top:16px; right:16px; display:grid; place-items:center; width:36px; height:36px; border-radius:10px;
-      background:var(--accent-soft); color:var(--accent-ink);
+    .blk { display:grid; gap:10px; align-content:start; }
+    .blk-title { font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--subtle); }
+    .datebar { display:grid; grid-template-columns:44px minmax(0, 1fr) 44px; gap:8px; }
+    .iconbtn {
+      display:grid; place-items:center; width:44px; height:44px; border:1px solid var(--line-2); border-radius:14px; background:#fff;
+      color:var(--brand-ink); cursor:pointer; box-shadow:var(--shadow-sm); transition:background-color .15s, border-color .15s;
     }
-    .tile-ico.ok { background:var(--ok-soft); color:var(--ok); }
-    .tile-ico.warn { background:var(--warn-soft); color:var(--warn); }
-    .tile-ico.bad { background:var(--bad-soft); color:var(--bad); }
+    .iconbtn:hover { background:var(--brand-soft); border-color:var(--brand); }
+    .linkbtn { justify-self:start; padding:6px 0; min-height:32px; border:0; background:none; color:var(--brand-ink); font-size:.85rem; font-weight:700; cursor:pointer; text-decoration:underline; text-underline-offset:3px; }
+    .linkbtn:hover { color:var(--brand-2); }
+    .linkbtn:focus-visible { outline:0; box-shadow:var(--ring); border-radius:6px; }
 
-    /* ---- card, toolbar, form fields ---- */
-    .card { overflow:hidden; border:1px solid var(--line); border-radius:16px; background:var(--surface); box-shadow:var(--shadow); }
-    .toolbar { display:grid; grid-template-columns:minmax(0, 1.6fr) repeat(3, minmax(0, 1fr)); gap:16px; padding:18px 20px; border-bottom:1px solid var(--line); }
-    .field { display:grid; gap:6px; min-width:0; }
-    .field > label { font-size:.75rem; font-weight:600; letter-spacing:.01em; color:var(--muted); }
-    .control { position:relative; display:flex; align-items:center; }
-    .control .lead, .control .trail { position:absolute; color:var(--subtle); pointer-events:none; }
-    .control .lead { left:12px; }
-    .control .trail { right:12px; }
-    .control input, .control select {
-      width:100%; height:42px; padding:0 12px; border:1px solid var(--line-2); border-radius:10px; background:var(--surface);
-      color:var(--text); font:inherit; font-size:.9375rem; box-shadow:var(--shadow-sm); transition:border-color .15s, box-shadow .15s;
+    .input {
+      width:100%; height:46px; padding:0 14px; border:1px solid var(--line-2); border-radius:14px; background:#fff; color:var(--text);
+      font-size:.95rem; box-shadow:var(--shadow-sm); transition:border-color .15s, box-shadow .15s;
     }
-    .control select, .control input:not([type=date]) { -webkit-appearance:none; appearance:none; }
-    .control .lead ~ input { padding-left:38px; }
-    .control select { padding-right:36px; cursor:pointer; }
-    .control input::placeholder { color:var(--subtle); }
-    .control input::-webkit-date-and-time-value { text-align:left; }
-    .control input:hover, .control select:hover { border-color:var(--subtle); }
-    .control input:focus, .control select:focus { outline:0; border-color:var(--accent); box-shadow:var(--ring); }
+    .input:hover { border-color:var(--subtle); }
+    .input:focus { outline:0; border-color:var(--brand); box-shadow:var(--ring); }
+    .input::placeholder { color:var(--subtle); }
+    .input::-webkit-date-and-time-value { text-align:left; }
+    select.input, input[type=search].input, input[type=password].input { -webkit-appearance:none; appearance:none; }
+    select.input { padding-right:40px; cursor:pointer; }
+    .has-icon { position:relative; }
+    .has-icon > .icon { position:absolute; top:50%; transform:translateY(-50%); pointer-events:none; color:var(--subtle); }
+    .has-icon.l > .icon { left:15px; }
+    .has-icon.l > .input { padding-left:44px; }
+    .has-icon.r > .icon { right:15px; }
+    .keybox.on > .icon { color:var(--ok); }
+    .hint { font-size:.78rem; color:var(--subtle); }
 
-    /* ---- buttons ---- */
+    .chipset { display:flex; flex-wrap:wrap; gap:8px; }
+    .fchip {
+      display:inline-flex; align-items:center; gap:7px; height:34px; padding:0 13px; border:1px solid var(--line-2); border-radius:999px; background:#fff;
+      color:var(--muted); font-size:.84rem; font-weight:700; cursor:pointer; transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
+    }
+    .fchip small { font-size:.72rem; font-weight:700; color:var(--subtle); }
+    .fchip:hover { border-color:var(--brand); color:var(--brand-ink); }
+    .fchip:focus-visible { outline:0; box-shadow:var(--ring); }
+    .fchip[aria-pressed=true] { background:var(--brand); border-color:var(--brand); color:#fff; box-shadow:0 8px 16px -10px rgba(15,118,110,.9); }
+    .fchip[aria-pressed=true] small { color:rgba(255,255,255,.88); }
+
+    /* ---- board ---- */
+    .main { min-width:0; max-width:1260px; padding:36px clamp(20px, 4vw, 52px) 72px; }
+    .hero { display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:16px; margin-bottom:22px; }
+    h1 { font-size:2.125rem; line-height:1.08; font-weight:800; letter-spacing:-.03em; }
+    .sub { margin-top:6px; color:var(--muted); font-weight:600; }
+    .hero-actions { display:flex; gap:10px; }
+
     .btn {
-      display:inline-flex; align-items:center; justify-content:center; gap:8px; height:42px; padding:0 16px; border:1px solid transparent; border-radius:10px;
-      font-size:.875rem; font-weight:600; line-height:1; white-space:nowrap; cursor:pointer;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px; height:44px; padding:0 20px; border:1px solid transparent; border-radius:999px;
+      font-size:.92rem; font-weight:700; line-height:1; white-space:nowrap; cursor:pointer;
       transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s, transform .08s;
     }
     .btn:focus-visible { outline:0; box-shadow:var(--ring); }
     .btn:active:not(:disabled) { transform:translateY(1px); }
-    .btn:disabled { cursor:not-allowed; opacity:.55; }
-    .btn[aria-busy=true] { cursor:progress; opacity:.85; }
-    .btn-primary { background:var(--accent); color:#fff; box-shadow:var(--shadow-sm); }
-    .btn-primary:hover:not(:disabled) { background:var(--accent-2); box-shadow:0 6px 16px -4px rgba(79,70,229,.5); }
-    .btn-ghost { background:var(--surface); border-color:var(--line-2); box-shadow:var(--shadow-sm); }
-    .btn-ghost:hover:not(:disabled) { background:var(--surface-2); border-color:var(--subtle); }
-    .btn-sm { height:36px; padding:0 14px; font-size:.8125rem; }
-    .icon-btn { width:42px; padding:0; }
+    .btn:disabled { opacity:.55; cursor:not-allowed; }
+    .btn[aria-busy=true] { opacity:.85; cursor:progress; }
+    .btn-primary { background:var(--brand); color:#fff; box-shadow:0 12px 22px -12px rgba(15,118,110,.9); }
+    .btn-primary:hover:not(:disabled) { background:var(--brand-2); }
+    .btn-line { background:#fff; border-color:var(--line-2); color:var(--text); box-shadow:var(--shadow-sm); }
+    .btn-line:hover:not(:disabled) { border-color:var(--brand); color:var(--brand-ink); }
+    .btn-sm { height:38px; padding:0 16px; font-size:.85rem; }
+    .btn-icon { width:44px; padding:0; }
     .spinner { display:inline-block; flex:none; width:14px; height:14px; border:2px solid currentColor; border-right-color:transparent; border-radius:50%; animation:spin .7s linear infinite; }
     #refresh.spinning .icon { animation:spin .8s linear infinite; }
 
-    /* ---- student table ---- */
-    .table-wrap { overflow-x:auto; }
-    table { width:100%; border-collapse:collapse; }
-    th, td { padding:14px 12px; text-align:left; vertical-align:middle; }
-    th:first-child, td:first-child { padding-left:20px; }
-    th:last-child, td:last-child { padding-right:20px; }
-    th {
-      background:var(--surface-2); border-bottom:1px solid var(--line); color:var(--subtle);
-      font-size:.75rem; font-weight:600; letter-spacing:.05em; text-transform:uppercase; white-space:nowrap;
+    .summary { margin-bottom:22px; padding:22px 24px; border:1px solid var(--line); border-radius:24px; background:linear-gradient(135deg, #fff, #f1faf7); box-shadow:var(--shadow); }
+    .sum-top { display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin-bottom:16px; }
+    .sum-title { font-size:.76rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:var(--subtle); }
+    .sum-big { margin-top:2px; font-size:2rem; font-weight:800; letter-spacing:-.03em; line-height:1.15; font-variant-numeric:tabular-nums; }
+    .sum-big span { font-size:1rem; font-weight:600; letter-spacing:0; color:var(--muted); }
+    .sum-pct { font-size:1.25rem; font-weight:800; color:var(--ok); font-variant-numeric:tabular-nums; }
+    .bar { display:flex; height:14px; border-radius:999px; overflow:hidden; background:var(--track); }
+    .bar span { display:block; height:100%; transition:width .5s ease; }
+    .bar .p { background:var(--ok-dot); }
+    .bar .l { background:var(--late-dot); }
+    .bar .a { background:var(--bad-dot); }
+    .legend { display:flex; flex-wrap:wrap; gap:8px 22px; margin:14px 0 0; padding:0; list-style:none; font-size:.88rem; color:var(--muted); font-weight:600; }
+    .legend li { display:inline-flex; align-items:center; gap:8px; }
+    .legend i { width:10px; height:10px; border-radius:50%; background:var(--none); }
+    .legend .p i { background:var(--ok-dot); }
+    .legend .l i { background:var(--late-dot); }
+    .legend .a i { background:var(--bad-dot); }
+    .legend b { color:var(--text); font-variant-numeric:tabular-nums; }
+
+    .finder { display:flex; align-items:center; gap:14px; margin-bottom:18px; }
+    .search { flex:1; }
+    .search .input { height:48px; border-radius:999px; }
+    .count { font-size:.9rem; font-weight:700; color:var(--muted); white-space:nowrap; }
+
+    /* ---- student cards ---- */
+    .grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(290px, 1fr)); gap:18px; }
+    .student {
+      display:grid; gap:16px; padding:18px; border:1px solid var(--line); border-radius:20px; background:#fff; box-shadow:var(--shadow);
+      transition:transform .15s, box-shadow .15s, border-color .15s;
     }
-    th.c-action { text-align:right; }
-    td { border-bottom:1px solid var(--line); }
-    tbody tr:last-child td { border-bottom:0; }
-    tbody tr { transition:background-color .12s; }
-    tbody tr:hover { background:var(--surface-2); }
-    .who { display:flex; align-items:center; gap:12px; min-width:0; }
+    .student:hover { transform:translateY(-2px); box-shadow:var(--shadow-pop); }
+    .student[data-st=present] { border-color:var(--ok-line); background:linear-gradient(180deg, var(--ok-soft), #fff 70%); }
+    .student[data-st=late] { border-color:var(--late-line); background:linear-gradient(180deg, var(--late-soft), #fff 70%); }
+    .student[data-st=absent] { border-color:var(--bad-line); background:linear-gradient(180deg, var(--bad-soft), #fff 70%); }
+    .student.flash { animation:pop .6s ease-out; }
+    .s-head { display:flex; align-items:center; gap:12px; min-width:0; }
     .avatar {
-      display:grid; place-items:center; flex:none; width:36px; height:36px; border-radius:50%; font-size:.8125rem; font-weight:700; letter-spacing:.02em;
-      background:hsl(var(--h) 85% 93%); color:hsl(var(--h) 60% 28%);
+      display:grid; place-items:center; flex:none; width:46px; height:46px; border-radius:50%; font-size:.9rem; font-weight:800; letter-spacing:.02em;
+      background:hsl(var(--h) 80% 90%); color:hsl(var(--h) 55% 26%);
     }
-    @media (prefers-color-scheme: dark) { .avatar { background:hsl(var(--h) 45% 22%); color:hsl(var(--h) 85% 82%); } }
-    .name { min-width:0; max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600; }
-    .pill { display:inline-block; padding:3px 10px; border-radius:999px; background:var(--accent-soft); color:var(--accent-ink); font-size:.75rem; font-weight:600; white-space:nowrap; }
-    .c-subject { color:var(--muted); }
-    .c-present { font-variant-numeric:tabular-nums; }
-    .c-dates { max-width:300px; }
-    .c-dates:empty::before { content:"—"; color:var(--subtle); }
-    .chips { display:flex; flex-wrap:wrap; gap:6px; }
-    .chip { padding:2px 9px; border:1px solid var(--line); border-radius:999px; background:var(--surface-2); color:var(--muted); font-size:.75rem; white-space:nowrap; }
-    .chip.present { border-color:var(--ok-line); background:var(--ok-soft); color:var(--ok); }
-    .chip.late { border-color:var(--warn-line); background:var(--warn-soft); color:var(--warn); }
-    .chip.absent { border-color:var(--bad-line); background:var(--bad-soft); color:var(--bad); }
-    .chip.on { font-weight:700; outline:2px solid var(--accent); outline-offset:1px; } /* the day picked in "Class date" */
-    .c-action { text-align:right; white-space:nowrap; }
-    tr.flash { animation:flash 1.4s ease-out; }
+    .s-who { flex:1; min-width:0; }
+    .s-name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-size:1.02rem; font-weight:800; line-height:1.25; }
+    .s-meta { display:flex; align-items:center; gap:8px; min-width:0; margin-top:3px; font-size:.84rem; color:var(--muted); }
+    .tag { flex:none; padding:1px 9px; border-radius:999px; background:var(--brand-soft); color:var(--brand-ink); font-size:.76rem; font-weight:800; }
+    .s-sub { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .badge { flex:none; padding:3px 10px; border:1px solid var(--line); border-radius:999px; background:var(--surface-2); color:var(--subtle); font-size:.72rem; font-weight:800; letter-spacing:.02em; }
+    .badge.present { background:var(--ok-soft); border-color:var(--ok-line); color:var(--ok); }
+    .badge.late { background:var(--late-soft); border-color:var(--late-line); color:var(--late); }
+    .badge.absent { background:var(--bad-soft); border-color:var(--bad-line); color:var(--bad); }
+    .strip { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .dots { display:flex; flex-wrap:wrap; gap:7px; min-width:0; }
+    .d { width:12px; height:12px; border:2px solid var(--none); border-radius:50%; }
+    .d.present { background:var(--ok-dot); border-color:var(--ok-dot); }
+    .d.late { background:var(--late-dot); border-color:var(--late-dot); }
+    .d.absent { background:var(--bad-dot); border-color:var(--bad-dot); }
+    .d.sel { outline:2px solid var(--brand); outline-offset:2px; }
+    .strip-note { flex:none; font-size:.8rem; font-weight:800; color:var(--muted); white-space:nowrap; }
+    .acts { display:grid; grid-template-columns:repeat(3, 1fr); gap:8px; }
+    .act {
+      display:inline-flex; align-items:center; justify-content:center; gap:6px; height:40px; padding:0 6px; border:1px solid var(--line-2); border-radius:999px;
+      background:#fff; color:var(--muted); font-size:.84rem; font-weight:800; cursor:pointer; transition:background-color .15s, border-color .15s, color .15s, box-shadow .15s;
+    }
+    .act:focus-visible { outline:0; box-shadow:var(--ring); }
+    .act:disabled { opacity:.55; cursor:not-allowed; }
+    .act[aria-busy=true] { cursor:progress; }
+    .act.present:hover:not(:disabled):not([aria-pressed=true]) { border-color:var(--ok-solid); color:var(--ok); background:var(--ok-soft); }
+    .act.late:hover:not(:disabled):not([aria-pressed=true]) { border-color:var(--late-solid); color:var(--late); background:var(--late-soft); }
+    .act.absent:hover:not(:disabled):not([aria-pressed=true]) { border-color:var(--bad-solid); color:var(--bad); background:var(--bad-soft); }
+    .act[aria-pressed=true] { cursor:default; color:#fff; }
+    .act.present[aria-pressed=true] { background:var(--ok-solid); border-color:var(--ok-solid); }
+    .act.late[aria-pressed=true] { background:var(--late-solid); border-color:var(--late-solid); }
+    .act.absent[aria-pressed=true] { background:var(--bad-solid); border-color:var(--bad-solid); }
 
-    /* present / late / absent switch */
-    .seg { display:inline-grid; grid-auto-flow:column; gap:2px; padding:3px; border:1px solid var(--line-2); border-radius:10px; background:var(--surface-2); }
-    .seg-btn {
-      display:inline-flex; align-items:center; justify-content:center; min-width:60px; height:30px; padding:0 12px; border:1px solid transparent; border-radius:7px;
-      background:transparent; color:var(--muted); font-size:.8125rem; font-weight:600; line-height:1; white-space:nowrap; cursor:pointer;
-      transition:background-color .15s, border-color .15s, color .15s;
-    }
-    .seg-btn:hover:not(:disabled):not(.on) { background:var(--surface); color:var(--text); }
-    .seg-btn.present:hover:not(:disabled):not(.on) { color:var(--ok); }
-    .seg-btn.late:hover:not(:disabled):not(.on) { color:var(--warn); }
-    .seg-btn.absent:hover:not(:disabled):not(.on) { color:var(--bad); }
-    .seg-btn:focus-visible { outline:0; box-shadow:var(--ring); }
-    .seg-btn:disabled { cursor:not-allowed; opacity:.55; }
-    .seg-btn[aria-busy=true] { cursor:progress; opacity:.85; }
-    .seg-btn.on { cursor:default; }
-    .seg-btn.on.present { background:var(--ok-soft); border-color:var(--ok-line); color:var(--ok); }
-    .seg-btn.on.late { background:var(--warn-soft); border-color:var(--warn-line); color:var(--warn); }
-    .seg-btn.on.absent { background:var(--bad-soft); border-color:var(--bad-line); color:var(--bad); }
-
-    /* ---- loading skeleton, empty + error states ---- */
-    .sk-row { display:flex; align-items:center; gap:14px; padding:16px 20px; border-bottom:1px solid var(--line); }
-    .sk-row:last-child { border-bottom:0; }
-    .sk-col { display:grid; gap:8px; }
-    .sk {
-      display:block; border-radius:8px; background:linear-gradient(90deg, var(--line) 25%, var(--surface-2) 40%, var(--line) 60%);
-      background-size:400% 100%; animation:shimmer 1.4s ease infinite;
-    }
-    .sk.av { width:36px; height:36px; border-radius:50%; flex:none; }
-    .sk.l { width:160px; height:12px; }
-    .sk.s { width:90px; height:10px; }
-    .sk.b { width:180px; height:34px; margin-left:auto; }
-    .state { display:grid; justify-items:center; gap:6px; padding:56px 24px; text-align:center; }
-    .state-ico { display:grid; place-items:center; width:52px; height:52px; margin-bottom:6px; border-radius:50%; background:var(--accent-soft); color:var(--accent-ink); }
+    /* ---- loading, empty, error ---- */
+    .sk { display:block; border-radius:10px; background:linear-gradient(90deg, #e6f1ee 25%, #f4faf8 40%, #e6f1ee 60%); background-size:400% 100%; animation:shimmer 1.4s ease infinite; }
+    .sk-card { display:grid; gap:16px; padding:18px; border:1px solid var(--line); border-radius:20px; background:#fff; }
+    .sk-row { display:flex; align-items:center; gap:12px; }
+    .sk-col { display:grid; flex:1; gap:8px; }
+    .sk.c46 { width:46px; height:46px; border-radius:50%; flex:none; }
+    .sk.l { height:13px; width:70%; }
+    .sk.s { height:10px; width:45%; }
+    .sk.dots-sk { height:12px; width:60%; }
+    .sk.btns { height:40px; border-radius:999px; }
+    .state { display:grid; justify-items:center; gap:8px; padding:64px 24px; border:1px dashed var(--line-2); border-radius:24px; background:rgba(255,255,255,.6); text-align:center; }
+    .state-ico { display:grid; place-items:center; width:60px; height:60px; margin-bottom:4px; border-radius:50%; background:var(--brand-soft); color:var(--brand-ink); }
     .state-ico.bad { background:var(--bad-soft); color:var(--bad); }
-    .state-ico .icon { width:24px; height:24px; }
-    .state h2 { font-size:1.0625rem; font-weight:700; }
+    .state-ico .icon { width:26px; height:26px; }
+    .state h2 { font-size:1.2rem; font-weight:800; }
     .state p { max-width:42ch; margin-bottom:10px; color:var(--muted); }
 
-    /* ---- add-student panel ---- */
-    .addpanel { padding:20px; border-bottom:1px solid var(--line); background:var(--surface-2); animation:drop .18s ease-out; }
-    .addpanel h2 { font-size:1rem; font-weight:700; }
-    .addpanel > p { margin:4px 0 16px; color:var(--muted); font-size:.875rem; }
-    .grid3 { display:grid; grid-template-columns:repeat(3, minmax(0, 1fr)); gap:16px; }
-    .addpanel-actions { display:flex; justify-content:flex-end; gap:8px; margin-top:16px; }
+    /* ---- add-student window ---- */
+    dialog { width:min(480px, calc(100vw - 32px)); max-height:calc(100vh - 32px); padding:0; border:0; border-radius:26px; background:#fff; color:var(--text); box-shadow:var(--shadow-pop); }
+    dialog::backdrop { background:rgba(24,49,45,.38); -webkit-backdrop-filter:blur(3px); backdrop-filter:blur(3px); }
+    dialog[open] { animation:pop .22s ease-out; }
+    #add { display:grid; gap:16px; padding:26px; }
+    .dlg-head { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .dlg-head h2 { font-size:1.3rem; font-weight:800; letter-spacing:-.02em; }
+    .dlg-sub { margin-top:-8px; color:var(--muted); font-size:.92rem; }
+    .fld { display:grid; gap:6px; }
+    .fld > span { font-size:.78rem; font-weight:800; color:var(--muted); }
+    .two { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+    .note { padding:10px 14px; border-radius:14px; font-size:.88rem; font-weight:600; }
+    .note.ok { background:var(--ok-soft); color:var(--ok); }
+    .note.bad { background:var(--bad-soft); color:var(--bad); }
+    .dlg-actions { display:flex; justify-content:flex-end; gap:10px; }
 
-    /* ---- toasts ---- */
-    .toasts { position:fixed; right:20px; bottom:20px; z-index:60; display:grid; gap:10px; width:min(380px, calc(100vw - 32px)); pointer-events:none; }
+    /* ---- toasts (top centre) ---- */
+    .toasts { position:fixed; top:16px; left:50%; z-index:100; display:grid; gap:10px; width:min(440px, calc(100vw - 32px)); transform:translateX(-50%); pointer-events:none; }
     .toast {
-      display:flex; align-items:flex-start; gap:12px; padding:12px 10px 12px 14px; border:1px solid var(--line); border-left:4px solid var(--ok-dot);
-      border-radius:12px; background:var(--surface); box-shadow:var(--shadow-pop); pointer-events:auto; animation:rise .22s ease-out;
+      display:flex; align-items:center; gap:12px; padding:12px 12px 12px 16px; border:1px solid var(--line); border-radius:18px; background:#fff;
+      box-shadow:var(--shadow-pop); pointer-events:auto; animation:drop .25s ease-out;
     }
-    .toast.bad { border-left-color:var(--bad-dot); }
-    .toast > .icon { margin-top:1px; color:var(--ok); }
+    .toast > .icon { color:var(--ok); }
+    .toast.bad { border-color:var(--bad-line); }
     .toast.bad > .icon { color:var(--bad); }
-    .toast p { flex:1; font-size:.875rem; font-weight:500; line-height:1.45; }
-    .toast.out { opacity:0; transform:translateY(6px); transition:opacity .2s, transform .2s; }
-    .toast-x {
-      display:grid; place-items:center; flex:none; width:28px; height:28px; border:0; border-radius:8px; background:transparent; color:var(--subtle);
-      cursor:pointer; transition:background-color .15s, color .15s;
-    }
+    .toast p { flex:1; font-size:.9rem; font-weight:700; line-height:1.4; }
+    .toast.out { opacity:0; transform:translateY(-8px); transition:opacity .2s, transform .2s; }
+    .toast-x { display:grid; place-items:center; flex:none; width:30px; height:30px; border:0; border-radius:50%; background:transparent; color:var(--subtle); cursor:pointer; transition:background-color .15s, color .15s; }
     .toast-x:hover { background:var(--surface-2); color:var(--text); }
     .toast-x:focus-visible { outline:0; box-shadow:var(--ring); }
     .toast-x .icon { width:16px; height:16px; }
@@ -246,232 +245,162 @@
     @keyframes spin { to { transform:rotate(360deg); } }
     @keyframes pulse { 50% { opacity:.35; transform:scale(.8); } }
     @keyframes shimmer { from { background-position:100% 50%; } to { background-position:0 50%; } }
-    @keyframes rise { from { opacity:0; transform:translateY(8px) scale(.98); } }
-    @keyframes drop { from { opacity:0; transform:translateY(-6px); } }
-    @keyframes flash { from { background:var(--ok-soft); } }
+    @keyframes drop { from { opacity:0; transform:translateY(-10px); } }
+    @keyframes pop { 0% { opacity:.6; transform:scale(.97); } 100% { opacity:1; transform:none; } }
 
-    /* ---- tablets and below ---- */
-    @media (max-width:960px) {
-      .toolbar { grid-template-columns:repeat(2, minmax(0, 1fr)); }
-      .f-search { grid-column:1 / -1; }
-    }
-    @media (max-width:1000px) { /* one card-like row per student instead of a table, so the buttons never scroll out of sight */
-      .grid3 { grid-template-columns:1fr; }
-      thead { position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); }
-      table, tbody { display:block; }
-      tbody tr {
-        display:grid; grid-template-columns:auto minmax(0, 1fr) auto auto; align-items:center; column-gap:16px; padding:16px 20px; border-bottom:1px solid var(--line);
-        grid-template-areas:"who who cnt act" "sec sub sub act" "dates dates dates dates";
+    /* ---- tablets: the sidebar becomes a control panel above the board ---- */
+    @media (max-width:1099px) {
+      .app { grid-template-columns:1fr; }
+      .side {
+        position:static; height:auto; overflow:visible; display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:18px 22px; padding:18px 22px;
+        border-right:0; border-bottom:1px solid var(--line);
       }
-      tbody tr:last-child { border-bottom:0; }
-      tbody tr:hover { background:none; }
-      td, td:first-child, td:last-child { display:block; padding:0; border:0; }
-      .c-student { grid-area:who; }
-      .c-present { grid-area:cnt; color:var(--muted); font-size:.8125rem; white-space:nowrap; }
-      .c-present b { color:var(--text); font-size:.9375rem; }
-      .c-present::after { content:" present"; }
-      .c-section { grid-area:sec; }
-      .c-subject { grid-area:sub; }
-      .c-dates { grid-area:dates; max-width:none; }
-      .c-dates:empty { display:none; }
-      .c-section, .c-subject, .c-dates { margin-top:12px; } /* margins, not row gaps, so a hidden empty row adds no space */
-      .c-action { grid-area:act; }
-      .name { max-width:none; }
+      .side-brand { grid-column:1 / -1; grid-template-columns:44px minmax(0, 1fr) auto; grid-template-areas:"mark name conn"; }
+      #blk-date, #blk-section { grid-column:1 / -1; }
+      .main { padding-top:26px; }
     }
-
-    @media (max-width:760px) { .stats { grid-template-columns:repeat(2, minmax(0, 1fr)); } }
 
     /* ---- phones ---- */
-    @media (max-width:640px) {
-      .wrap { padding:0 16px; }
-      .topbar { position:static; }
-      .bar { flex-wrap:wrap; min-height:0; padding-top:12px; padding-bottom:12px; }
-      .bar-right { display:contents; }
-      .conn { margin-left:auto; }
-      .keyfield { flex:1 1 100%; order:3; height:42px; }
-      .keyfield input { width:100%; font-size:16px; }
-      main { padding-top:20px; }
-      .actions { width:100%; }
-      .actions .btn-primary { flex:1; }
-      .stats { gap:10px; }
-      .tile { padding:12px; }
-      .tile-ico { display:none; }
-      .tile-value { font-size:1.5rem; }
-      .toolbar { gap:12px; padding:16px; }
-      .f-date { grid-column:1 / -1; }
-      .control input, .control select { font-size:16px; }
-      .toasts { right:16px; bottom:16px; left:16px; width:auto; }
-      tbody tr { grid-template-columns:auto minmax(0, 1fr) auto; grid-template-areas:"who who cnt" "sec sub sub" "dates dates dates" "act act act"; padding:16px; }
-      .c-action { margin-top:12px; text-align:left; }
-      .c-action .seg { display:grid; grid-template-columns:repeat(3, 1fr); width:100%; }
-      .seg-btn { min-width:0; height:38px; }
+    @media (max-width:560px) {
+      .side { grid-template-columns:1fr; padding:16px; }
+      .main { padding:22px 16px 64px; }
+      h1 { font-size:1.75rem; }
+      .hero-actions { width:100%; }
+      .hero-actions .btn-primary { flex:1; }
+      .summary { padding:18px; }
+      .sum-big { font-size:1.65rem; }
+      .finder { flex-direction:column; align-items:stretch; gap:8px; }
+      .grid { grid-template-columns:1fr; }
+      .two { grid-template-columns:1fr; }
+      .input, .search .input { font-size:16px; }
+      dialog { width:100%; max-width:100%; margin:auto 0 0; border-radius:26px 26px 0 0; }
+      #add { padding:22px 18px 26px; }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .conn[data-state] .dot, .sk, .toast, .addpanel, tr.flash { animation:none; }
-      .btn, .keyfield, .seg-btn, .control input, .control select, tbody tr { transition:none; }
+      .conn[data-state] .dot, .sk, .toast, dialog[open], .student.flash { animation:none; }
+      .btn, .iconbtn, .fchip, .act, .input, .student, .bar span { transition:none; }
     }
   </style>
 </head>
 <body>
   <!-- icon sprite (Lucide-style outlines) -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-    <symbol id="i-clipboard" viewBox="0 0 24 24"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 24 24"><path d="M8 2v4M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
     <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+    <symbol id="i-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
     <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>
     <symbol id="i-user-plus" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></symbol>
     <symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
-    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
     <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
-    <symbol id="i-x-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m15 9-6 6M9 9l6 6"/></symbol>
-    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
     <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
+    <symbol id="i-check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
     <symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></symbol>
     <symbol id="i-unlock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/></symbol>
   </svg>
 
-  <header class="topbar">
-    <div class="wrap bar">
-      <div class="brand">
-        <span class="logo" aria-hidden="true"><svg class="icon"><use href="#i-clipboard"/></svg></span>
-        <span>Lab Attendance</span>
-      </div>
-      <div class="bar-right">
+  <div class="app">
+    <aside class="side" aria-label="Date and filters">
+      <div class="side-brand">
+        <span class="mark" aria-hidden="true"><svg class="icon"><use href="#i-logo"/></svg></span>
+        <p class="brand-name">Lab Attendance</p>
         <span class="conn" id="conn" data-state="loading" role="status"><span class="dot" aria-hidden="true"></span><span id="conn-text">Connecting…</span></span>
-        <div class="keyfield" id="keybox" title="Needed to save changes. Kept only in this browser.">
+      </div>
+
+      <section class="blk" id="blk-date">
+        <label class="blk-title" for="date">Class date</label>
+        <div class="datebar">
+          <button class="iconbtn" id="prev" type="button" aria-label="Previous day"><svg class="icon" aria-hidden="true"><use href="#i-left"/></svg></button>
+          <input class="input" id="date" type="date">
+          <button class="iconbtn" id="next" type="button" aria-label="Next day"><svg class="icon" aria-hidden="true"><use href="#i-right"/></svg></button>
+        </div>
+        <button class="linkbtn" id="today" type="button">Jump to today</button>
+      </section>
+
+      <section class="blk" id="blk-section" hidden>
+        <h2 class="blk-title" id="sec-label">Section</h2>
+        <div class="chipset" id="sections" role="group" aria-labelledby="sec-label"></div>
+      </section>
+
+      <section class="blk">
+        <label class="blk-title" for="subject">Subject</label>
+        <div class="has-icon r">
+          <select class="input" id="subject"><option value="">All subjects</option></select>
+          <svg class="icon" aria-hidden="true"><use href="#i-down"/></svg>
+        </div>
+      </section>
+
+      <section class="blk">
+        <label class="blk-title" for="key">Teacher key</label>
+        <div class="has-icon l keybox" id="keybox">
           <svg class="icon" aria-hidden="true"><use id="keyicon" href="#i-lock"/></svg>
-          <input id="key" type="password" autocomplete="off" placeholder="Teacher key" aria-label="Teacher key">
+          <input class="input" id="key" type="password" autocomplete="off" placeholder="Needed to save changes">
         </div>
-      </div>
-    </div>
-  </header>
+        <p class="hint">Stays in this browser only.</p>
+      </section>
+    </aside>
 
-  <main class="wrap">
-    <div class="page-head">
-      <div>
-        <h1>Class attendance</h1>
-        <p class="sub" id="subtitle">Mark who is present in your lab class.</p>
-      </div>
-      <div class="actions">
-        <button class="btn btn-ghost icon-btn" id="refresh" type="button" aria-label="Refresh list" title="Refresh"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg></button>
-        <button class="btn btn-primary" id="addToggle" type="button" aria-expanded="false" aria-controls="add"><svg class="icon" aria-hidden="true"><use href="#i-user-plus"/></svg>Add student</button>
-      </div>
-    </div>
+    <main class="main">
+      <header class="hero">
+        <div>
+          <h1>Roll call</h1>
+          <p class="sub" id="subtitle">Pick a class date to start marking attendance.</p>
+        </div>
+        <div class="hero-actions">
+          <button class="btn btn-line btn-icon" id="refresh" type="button" aria-label="Refresh list" title="Refresh"><svg class="icon" aria-hidden="true"><use href="#i-refresh"/></svg></button>
+          <button class="btn btn-primary" id="addToggle" type="button"><svg class="icon" aria-hidden="true"><use href="#i-user-plus"/></svg>Add student</button>
+        </div>
+      </header>
 
-    <section class="stats" aria-label="Summary for the chosen date">
-      <div class="tile">
-        <span class="tile-ico" aria-hidden="true"><svg class="icon"><use href="#i-users"/></svg></span>
-        <p class="tile-label">Students</p>
-        <p class="tile-value" id="st-total">–</p>
-        <p class="tile-sub" id="st-total-sub">&nbsp;</p>
-      </div>
-      <div class="tile">
-        <span class="tile-ico ok" aria-hidden="true"><svg class="icon"><use href="#i-check-circle"/></svg></span>
-        <p class="tile-label">Present</p>
-        <p class="tile-value" id="st-present">–</p>
-        <p class="tile-sub" id="st-present-sub">&nbsp;</p>
-      </div>
-      <div class="tile">
-        <span class="tile-ico warn" aria-hidden="true"><svg class="icon"><use href="#i-clock"/></svg></span>
-        <p class="tile-label">Late</p>
-        <p class="tile-value" id="st-late">–</p>
-        <p class="tile-sub" id="st-late-sub">&nbsp;</p>
-      </div>
-      <div class="tile">
-        <span class="tile-ico bad" aria-hidden="true"><svg class="icon"><use href="#i-x-circle"/></svg></span>
-        <p class="tile-label">Absent</p>
-        <p class="tile-value" id="st-absent">–</p>
-        <p class="tile-sub" id="st-absent-sub">&nbsp;</p>
-      </div>
-    </section>
+      <section class="summary" aria-label="Summary for the chosen date">
+        <div class="sum-top">
+          <div>
+            <p class="sum-title" id="s-title">Attendance</p>
+            <p class="sum-big"><b id="s-main">–</b><span id="s-of"></span></p>
+          </div>
+          <p class="sum-pct" id="s-pct" aria-hidden="true"></p>
+        </div>
+        <div class="bar" id="bar" role="img" aria-label="No attendance loaded yet">
+          <span class="p" id="b-present" style="width:0"></span><span class="l" id="b-late" style="width:0"></span><span class="a" id="b-absent" style="width:0"></span>
+        </div>
+        <ul class="legend">
+          <li class="p"><i></i>Present <b id="l-present">0</b></li>
+          <li class="l"><i></i>Late <b id="l-late">0</b></li>
+          <li class="a"><i></i>Absent <b id="l-absent">0</b></li>
+          <li><i></i>Not marked <b id="l-none">0</b></li>
+        </ul>
+      </section>
 
-    <section class="card" aria-label="Students">
-      <div class="toolbar">
-        <div class="field f-search">
-          <label for="q">Search</label>
-          <div class="control">
-            <svg class="icon lead" aria-hidden="true"><use href="#i-search"/></svg>
-            <input id="q" type="search" placeholder="Search by student name" autocomplete="off">
-          </div>
+      <div class="finder">
+        <div class="has-icon l search">
+          <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+          <label class="sr-only" for="q">Search students</label>
+          <input class="input" id="q" type="search" placeholder="Search students by name" autocomplete="off">
         </div>
-        <div class="field">
-          <label for="section">Section</label>
-          <div class="control">
-            <select id="section"><option value="">All sections</option></select>
-            <svg class="icon trail" aria-hidden="true"><use href="#i-chevron"/></svg>
-          </div>
-        </div>
-        <div class="field">
-          <label for="subject">Subject</label>
-          <div class="control">
-            <select id="subject"><option value="">All subjects</option></select>
-            <svg class="icon trail" aria-hidden="true"><use href="#i-chevron"/></svg>
-          </div>
-        </div>
-        <div class="field f-date">
-          <label for="date">Class date</label>
-          <div class="control"><input id="date" type="date"></div>
-        </div>
+        <p class="count" id="count" aria-live="polite"></p>
       </div>
 
-      <form class="addpanel" id="add" hidden>
-        <h2>Add a student</h2>
-        <p>They show up in the list right away. Section and subject suggestions come from your existing students.</p>
-        <div class="grid3">
-          <div class="field">
-            <label for="a-name">Student name</label>
-            <div class="control"><input id="a-name" name="studentName" required maxlength="100" placeholder="e.g. Maria Santos" autocomplete="off"></div>
-          </div>
-          <div class="field">
-            <label for="a-section">Section</label>
-            <div class="control"><input id="a-section" name="section" list="sections" required maxlength="50" placeholder="e.g. CS3A" autocomplete="off"></div>
-          </div>
-          <div class="field">
-            <label for="a-subject">Subject</label>
-            <div class="control"><input id="a-subject" name="subjectName" list="subjects" required maxlength="100" placeholder="e.g. Web Development" autocomplete="off"></div>
-          </div>
-        </div>
-        <datalist id="sections"></datalist>
-        <datalist id="subjects"></datalist>
-        <div class="addpanel-actions">
-          <button class="btn btn-ghost" id="addCancel" type="button">Cancel</button>
-          <button class="btn btn-primary" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-user-plus"/></svg>Add student</button>
-        </div>
-      </form>
-
-      <div id="v-loading" role="status">
+      <div class="grid" id="v-loading" role="status">
         <span class="sr-only">Loading students…</span>
-        <div class="sk-row"><span class="sk av"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span><span class="sk b"></span></div>
-        <div class="sk-row"><span class="sk av"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span><span class="sk b"></span></div>
-        <div class="sk-row"><span class="sk av"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span><span class="sk b"></span></div>
-        <div class="sk-row"><span class="sk av"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span><span class="sk b"></span></div>
-        <div class="sk-row"><span class="sk av"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span><span class="sk b"></span></div>
-        <div class="sk-row"><span class="sk av"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span><span class="sk b"></span></div>
+        <div class="sk-card"><div class="sk-row"><span class="sk c46"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span></div><span class="sk dots-sk"></span><span class="sk btns"></span></div>
+        <div class="sk-card"><div class="sk-row"><span class="sk c46"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span></div><span class="sk dots-sk"></span><span class="sk btns"></span></div>
+        <div class="sk-card"><div class="sk-row"><span class="sk c46"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span></div><span class="sk dots-sk"></span><span class="sk btns"></span></div>
+        <div class="sk-card"><div class="sk-row"><span class="sk c46"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span></div><span class="sk dots-sk"></span><span class="sk btns"></span></div>
+        <div class="sk-card"><div class="sk-row"><span class="sk c46"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span></div><span class="sk dots-sk"></span><span class="sk btns"></span></div>
+        <div class="sk-card"><div class="sk-row"><span class="sk c46"></span><span class="sk-col"><span class="sk l"></span><span class="sk s"></span></span></div><span class="sk dots-sk"></span><span class="sk btns"></span></div>
       </div>
 
-      <div class="table-wrap" id="v-list" hidden>
-        <!-- explicit roles keep the table semantics when the phone layout changes the display types -->
-        <table role="table" aria-label="Students">
-          <thead role="rowgroup">
-            <tr role="row">
-              <th role="columnheader" scope="col">Student</th>
-              <th role="columnheader" scope="col">Section</th>
-              <th role="columnheader" scope="col">Subject</th>
-              <th role="columnheader" scope="col">Present</th>
-              <th role="columnheader" scope="col">Dates</th>
-              <th role="columnheader" scope="col" class="c-action" id="markhead">Mark</th>
-            </tr>
-          </thead>
-          <tbody id="rows" role="rowgroup"></tbody>
-        </table>
-      </div>
+      <div class="grid" id="v-list" hidden></div>
 
       <div class="state" id="v-empty" hidden>
         <span class="state-ico" aria-hidden="true"><svg class="icon"><use href="#i-users"/></svg></span>
         <h2 id="empty-title">No students match</h2>
         <p id="empty-text">Try a different name or clear the filters.</p>
-        <button class="btn btn-ghost btn-sm" id="clear" type="button">Clear filters</button>
+        <button class="btn btn-line btn-sm" id="clear" type="button">Clear filters</button>
         <button class="btn btn-primary btn-sm" id="emptyAdd" type="button" hidden><svg class="icon" aria-hidden="true"><use href="#i-user-plus"/></svg>Add student</button>
       </div>
 
@@ -481,8 +410,30 @@
         <p id="error-text">Something went wrong.</p>
         <button class="btn btn-primary btn-sm" id="retry" type="button">Try again</button>
       </div>
-    </section>
-  </main>
+    </main>
+  </div>
+
+  <dialog id="addDialog" aria-labelledby="add-title">
+    <form id="add" method="dialog">
+      <div class="dlg-head">
+        <h2 id="add-title">Add a student</h2>
+        <button class="iconbtn" id="addClose" type="button" aria-label="Close"><svg class="icon" aria-hidden="true"><use href="#i-x"/></svg></button>
+      </div>
+      <p class="dlg-sub">They appear in the roll call right away. Suggestions come from your current students.</p>
+      <label class="fld"><span>Student name</span><input class="input" name="studentName" required maxlength="100" placeholder="e.g. Maria Santos" autocomplete="off" autofocus></label>
+      <div class="two">
+        <label class="fld"><span>Section</span><input class="input" name="section" list="sections-list" required maxlength="50" placeholder="e.g. CS3A" autocomplete="off"></label>
+        <label class="fld"><span>Subject</span><input class="input" name="subjectName" list="subjects-list" required maxlength="100" placeholder="e.g. Web Development" autocomplete="off"></label>
+      </div>
+      <datalist id="sections-list"></datalist>
+      <datalist id="subjects-list"></datalist>
+      <p class="note" id="add-note" role="status" hidden></p>
+      <div class="dlg-actions">
+        <button class="btn btn-line" id="addCancel" type="button">Done</button>
+        <button class="btn btn-primary" type="submit"><svg class="icon" aria-hidden="true"><use href="#i-user-plus"/></svg>Add student</button>
+      </div>
+    </form>
+  </dialog>
 
   <div class="toasts" id="toasts" aria-live="polite"></div>
 
@@ -492,8 +443,10 @@
     const $ = (id) => document.getElementById(id);
     const STATUSES = ['present', 'late', 'absent'];
     const LABEL = { present: 'Present', late: 'Late', absent: 'Absent' };
+    const GLYPH = { present: 'check', late: 'clock', absent: 'x' };
     let records = [];
     let loaded = false; // true after the first successful fetch
+    let section = '';   // the section chip that is switched on ('' = all)
 
     // ---------- small UI helpers (all text goes in through textContent, never innerHTML) ----------
     const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -535,7 +488,7 @@
       setTimeout(close, bad ? 7000 : 3500);
     }
 
-    function conn(state, text) { // header badge: loading | ok | error
+    function conn(state, text) { // connection badge: loading | ok | error
       $('conn').dataset.state = state;
       $('conn-text').textContent = text;
     }
@@ -589,7 +542,7 @@
 
     function fail(err) {
       if (err.status === 401) {
-        toast('That teacher key was not accepted. Check the key at the top of the page.', 'bad');
+        toast('That teacher key was not accepted. Check the Teacher key box.', 'bad');
         $('key').focus();
         $('key').select();
       } else {
@@ -597,10 +550,16 @@
       }
     }
 
-    // ---------- formatting ----------
+    // ---------- dates and attendance entries ----------
     // Dates are stored as UTC midnight, so they are read as UTC. A student's attendance is a list of { date, status }.
     const pretty = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString(undefined, { month: 'short', day: 'numeric', timeZone: 'UTC' });
     const long = (d) => new Date(d + 'T00:00:00Z').toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', timeZone: 'UTC' });
+    const today = () => new Date().toLocaleDateString('en-CA'); // YYYY-MM-DD in your timezone
+    function shift(d, days) {
+      const t = new Date((d || today()) + 'T00:00:00Z');
+      t.setUTCDate(t.getUTCDate() + days);
+      return t.toISOString().slice(0, 10);
+    }
 
     function entriesOf(r) {
       return (Array.isArray(r.attendance) ? r.attendance : [])
@@ -610,13 +569,14 @@
     }
     const statusOn = (r, date) => (entriesOf(r).find((e) => e.day === date) || {}).status || '';
 
-    const HUES = [239, 160, 199, 38, 350, 262]; // indigo, emerald, sky, amber, rose, violet
+    const HUES = [172, 152, 199, 38, 350, 262]; // teal, green, sky, amber, rose, violet
     const hue = (name) => HUES[[...name].reduce((h, c) => (h * 31 + c.codePointAt(0)) >>> 0, 7) % HUES.length];
     function initials(name) {
       const words = name.trim().split(/\s+/);
       const first = (w) => Array.from(w)[0] || '';
       return ((first(words[0]) + (words.length > 1 ? first(words[words.length - 1]) : '')) || '?').toUpperCase();
     }
+    const cap = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
     function fill(select, label, values) {
       const keep = select.value;
@@ -624,110 +584,140 @@
       select.value = keep;
     }
 
+    // ---------- section chips ----------
+    function chipsBuild() {
+      document.getElementById('blk-section').hidden = false; // shown once there are sections to pick from
+      const counts = new Map();
+      for (const r of records) counts.set(r.section, (counts.get(r.section) || 0) + 1);
+      const items = [['', 'All', records.length], ...[...counts.keys()].sort().map((s) => [s, s, counts.get(s)])];
+      $('sections').replaceChildren(...items.map(([value, label, n]) => {
+        const b = document.createElement('button');
+        const small = document.createElement('small');
+        b.type = 'button';
+        b.className = 'fchip';
+        b.dataset.value = value;
+        small.textContent = n;
+        b.append(label, small);
+        b.addEventListener('click', () => { section = value; render(); });
+        return b;
+      }));
+    }
+    function chipsSync() {
+      for (const b of $('sections').children) b.setAttribute('aria-pressed', String(b.dataset.value === section));
+    }
+
     // ---------- drawing ----------
-    function row(r, date) {
-      const entries = entriesOf(r);
-      const current = (entries.find((e) => e.day === date) || {}).status || '';
-      const tr = document.createElement('tr');
-      tr.setAttribute('role', 'row');
-      tr.dataset.id = r._id;
-      const cell = (cls) => {
-        const td = document.createElement('td');
-        td.setAttribute('role', 'cell');
-        td.className = cls;
-        tr.append(td);
-        return td;
-      };
+    function summary(shown, date) {
+      const n = { present: 0, late: 0, absent: 0 };
+      if (date) for (const r of shown) { const s = statusOn(r, date); if (s in n) n[s]++; }
+      const total = shown.length;
+      const none = total - n.present - n.late - n.absent;
+      const pct = (k) => (total ? (n[k] / total) * 100 : 0);
+      $('s-title').textContent = date ? 'Attendance · ' + pretty(date) : 'Attendance';
+      $('s-main').textContent = loaded && date ? n.present : '–';
+      $('s-of').textContent = loaded && date ? ' of ' + total + ' present' : '';
+      $('s-pct').textContent = loaded && date && total ? Math.round(pct('present')) + '%' : '';
+      for (const [k, id] of [['present', 'b-present'], ['late', 'b-late'], ['absent', 'b-absent']]) {
+        $(id).style.width = loaded && date ? pct(k) + '%' : '0';
+        $('l-' + k).textContent = loaded && date ? n[k] : 0;
+      }
+      $('l-none').textContent = loaded ? (date ? none : total) : 0;
+      $('bar').setAttribute('aria-label', loaded && date
+        ? n.present + ' present, ' + n.late + ' late, ' + n.absent + ' absent, ' + none + ' not marked'
+        : 'No attendance to show yet');
+    }
+
+    function card(r, date, days) {
+      const byDay = new Map(entriesOf(r).map((e) => [e.day, e.status]));
+      const cur = byDay.get(date) || '';
+      const el = document.createElement('article');
+      el.className = 'student';
+      el.dataset.id = r._id;
+      el.dataset.st = STATUSES.includes(cur) ? cur : cur ? 'other' : 'none';
 
       const avatar = document.createElement('span');
       avatar.className = 'avatar';
       avatar.setAttribute('aria-hidden', 'true');
       avatar.textContent = initials(r.studentName);
       avatar.style.setProperty('--h', hue(r.studentName));
-      const name = document.createElement('span');
-      name.className = 'name';
+      const name = document.createElement('div');
+      name.className = 's-name';
       name.textContent = r.studentName;
       name.title = r.studentName;
+      const tag = document.createElement('span');
+      tag.className = 'tag';
+      tag.textContent = r.section;
+      const sub = document.createElement('span');
+      sub.className = 's-sub';
+      sub.textContent = r.subjectName;
+      const meta = document.createElement('div');
+      meta.className = 's-meta';
+      meta.append(tag, sub);
       const who = document.createElement('div');
-      who.className = 'who';
-      who.append(avatar, name);
-      cell('c-student').append(who);
+      who.className = 's-who';
+      who.append(name, meta);
+      const badge = document.createElement('span');
+      badge.className = 'badge' + (STATUSES.includes(cur) ? ' ' + cur : '');
+      badge.textContent = cur ? cap(cur) : 'Not marked';
+      const head = document.createElement('div');
+      head.className = 's-head';
+      head.append(avatar, who, badge);
 
-      const pill = document.createElement('span');
-      pill.className = 'pill';
-      pill.textContent = r.section;
-      cell('c-section').append(pill);
-
-      cell('c-subject').textContent = r.subjectName;
-
-      const count = document.createElement('b');
-      count.textContent = entries.filter((e) => e.status === 'present').length;
-      cell('c-present').append(count);
-
-      const dates = cell('c-dates');
-      if (entries.length) {
-        const chips = document.createElement('div');
-        chips.className = 'chips';
-        for (const e of entries) { // shortcut: every date shows, so a full semester gets tall; add a "+N more" chip then
-          const chip = document.createElement('span');
-          chip.className = 'chip' + (STATUSES.includes(e.status) ? ' ' + e.status : '') + (e.day === date ? ' on' : '');
-          chip.title = e.day + (e.status ? ' · ' + e.status : '');
-          chip.append(pretty(e.day));
-          if (e.status) {
-            const st = document.createElement('span');
-            st.className = e.status === 'present' ? 'sr-only' : '';
-            st.textContent = ' · ' + e.status;
-            chip.append(st);
-          }
-          chips.append(chip);
-        }
-        dates.append(chips);
+      const dots = document.createElement('div');
+      dots.className = 'dots';
+      dots.setAttribute('role', 'img');
+      const said = [];
+      for (const d of days) { // one dot per class day: filled = marked, hollow = not marked
+        const s = byDay.get(d) || '';
+        const dot = document.createElement('span');
+        dot.className = 'd' + (STATUSES.includes(s) ? ' ' + s : '') + (d === date ? ' sel' : '');
+        dot.title = pretty(d) + ' · ' + (s || 'not marked');
+        said.push(pretty(d) + ' ' + (s || 'not marked'));
+        dots.append(dot);
       }
+      dots.setAttribute('aria-label', said.length ? 'Attendance by class day: ' + said.join(', ') : 'No class days yet');
+      const note = document.createElement('span');
+      note.className = 'strip-note';
+      note.textContent = [...byDay.values()].filter((s) => s === 'present').length + ' present';
+      const strip = document.createElement('div');
+      strip.className = 'strip';
+      strip.append(dots, note);
 
-      const seg = document.createElement('div');
-      seg.className = 'seg';
-      seg.setAttribute('role', 'group');
-      seg.setAttribute('aria-label', 'Attendance for ' + r.studentName);
+      const acts = document.createElement('div');
+      acts.className = 'acts';
+      acts.setAttribute('role', 'group');
+      acts.setAttribute('aria-label', 'Attendance for ' + r.studentName);
       for (const s of STATUSES) {
         const btn = document.createElement('button');
-        const active = current === s;
         btn.type = 'button';
-        btn.className = 'seg-btn ' + s + (active ? ' on' : '');
-        btn.textContent = LABEL[s];
+        btn.className = 'act ' + s;
+        btn.append(icon(GLYPH[s]), LABEL[s]);
         btn.disabled = !date;
         if (!date) btn.title = 'Pick a class date first';
-        btn.setAttribute('aria-pressed', String(active));
+        btn.setAttribute('aria-pressed', String(cur === s));
         btn.setAttribute('aria-label', LABEL[s] + ': ' + r.studentName + ' on ' + date);
-        btn.addEventListener('click', () => { if (!active) mark(r, date, s, btn); });
-        seg.append(btn);
+        btn.addEventListener('click', () => { if (cur !== s) mark(r, date, s, btn); });
+        acts.append(btn);
       }
-      cell('c-action').append(seg);
-      return tr;
-    }
 
-    function stats(shown, date) {
-      const sections = new Set(records.map((r) => r.section)).size;
-      const n = { present: 0, late: 0, absent: 0 };
-      if (date) for (const r of shown) { const s = statusOn(r, date); if (s in n) n[s]++; }
-      const blank = ' '; // keeps the tile height steady before data arrives
-      $('st-total').textContent = loaded ? shown.length : '–';
-      $('st-total-sub').textContent = !loaded ? blank : shown.length === records.length ? sections + (sections === 1 ? ' section' : ' sections') : 'of ' + records.length + ' total';
-      for (const s of STATUSES) {
-        $('st-' + s).textContent = loaded ? n[s] : '–';
-        $('st-' + s + '-sub').textContent = loaded && date && shown.length ? Math.round((n[s] / shown.length) * 100) + '% of class' : blank;
-      }
+      el.append(head, strip, acts);
+      return el;
     }
 
     function render() {
-      const q = $('q').value.trim().toLowerCase(), sec = $('section').value, sub = $('subject').value, date = $('date').value;
+      const q = $('q').value.trim().toLowerCase(), sub = $('subject').value, date = $('date').value;
       const shown = records.filter((r) =>
-        (!sec || r.section === sec) && (!sub || r.subjectName === sub) && r.studentName.toLowerCase().includes(q));
-      $('subtitle').textContent = date ? 'Marking attendance for ' + long(date) : 'Pick a class date to start marking attendance.';
-      $('markhead').textContent = date ? 'Mark ' + pretty(date) : 'Mark';
-      stats(shown, date);
+        (!section || r.section === section) && (!sub || r.subjectName === sub) && r.studentName.toLowerCase().includes(q));
+      $('subtitle').textContent = date ? long(date) : 'Pick a class date to start marking attendance.';
+      $('count').textContent = !loaded ? '' : shown.length === records.length ? records.length + ' students' : shown.length + ' of ' + records.length + ' students';
+      summary(shown, date);
+      chipsSync();
       if (!loaded) return; // still on the loading or error view
 
-      $('rows').replaceChildren(...shown.map((r) => row(r, date)));
+      // the dots: every class day anyone has attendance for (latest 12), plus the chosen date
+      const recorded = [...new Set(records.flatMap((r) => entriesOf(r).map((e) => e.day)))];
+      const days = [...new Set([...recorded, date].filter(Boolean))].sort().slice(-12);
+      $('v-list').replaceChildren(...shown.map((r) => card(r, date, days)));
       if (shown.length) return view('list');
       const nobody = records.length === 0;
       $('empty-title').textContent = nobody ? 'No students yet' : 'No students match';
@@ -748,10 +738,11 @@
         if (!Array.isArray(data)) throw new Error('Unexpected reply from the server.');
         records = data;
         loaded = true;
-        fill($('section'), 'All sections', records.map((r) => r.section));
+        if (section && !records.some((r) => r.section === section)) section = '';
+        chipsBuild();
         fill($('subject'), 'All subjects', records.map((r) => r.subjectName));
-        $('sections').replaceChildren(...[...new Set(records.map((r) => r.section))].map((v) => new Option(v)));
-        $('subjects').replaceChildren(...[...new Set(records.map((r) => r.subjectName))].map((v) => new Option(v)));
+        $('sections-list').replaceChildren(...[...new Set(records.map((r) => r.section))].map((v) => new Option(v)));
+        $('subjects-list').replaceChildren(...[...new Set(records.map((r) => r.subjectName))].map((v) => new Option(v)));
         conn('ok', 'Connected');
         if (message) toast(message);
       } catch (err) {
@@ -775,53 +766,60 @@
           records = records.map((x) => (x._id === r._id ? updated : x));
           render();
           toast(r.studentName + ' marked ' + status + ' for ' + pretty(date));
-          $('rows').querySelector('[data-id="' + CSS.escape(r._id) + '"]')?.classList.add('flash');
+          $('v-list').querySelector('[data-id="' + CSS.escape(r._id) + '"]')?.classList.add('flash');
         } catch (err) {
           fail(err);
         }
       });
     }
 
-    function addOpen(open) {
-      $('add').hidden = !open;
-      $('addToggle').setAttribute('aria-expanded', String(open));
-      if (open) $('a-name').focus();
+    // ---------- add-student window ----------
+    const dlg = $('addDialog');
+    function note(text, kind) {
+      $('add-note').textContent = text;
+      $('add-note').className = 'note ' + kind;
+      $('add-note').hidden = false;
     }
-
-    $('addToggle').addEventListener('click', () => addOpen($('add').hidden));
-    $('emptyAdd').addEventListener('click', () => addOpen(true));
-    $('addCancel').addEventListener('click', () => { addOpen(false); $('addToggle').focus(); });
-    $('add').addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { addOpen(false); $('addToggle').focus(); }
-    });
+    const openAdd = () => { $('add-note').hidden = true; dlg.showModal(); };
+    $('addToggle').addEventListener('click', openAdd);
+    $('emptyAdd').addEventListener('click', openAdd);
+    $('addCancel').addEventListener('click', () => dlg.close());
+    $('addClose').addEventListener('click', () => dlg.close());
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); }); // a click on the dimmed area closes it
 
     $('add').addEventListener('submit', (e) => {
       e.preventDefault();
       const form = e.target;
       return busy(e.submitter || form.querySelector('[type=submit]'), 'Adding…', async () => {
         try {
+          const added = form.elements.studentName.value.trim();
           await api('POST', '', Object.fromEntries(new FormData(form)));
           form.elements.studentName.value = ''; // keep section + subject: students are usually added in batches
-          await load('Student added');
+          note('Added ' + added + '. Add another, or press Done.', 'ok');
           form.elements.studentName.focus();
+          load();
         } catch (err) {
-          fail(err);
+          note(err.status === 401 ? 'That teacher key was not accepted. Close this window and check the Teacher key box.' : err.message, 'bad');
         }
       });
     });
 
+    // ---------- controls ----------
     $('refresh').addEventListener('click', () => load());
     $('retry').addEventListener('click', (e) => busy(e.currentTarget, 'Retrying…', () => load()));
     $('clear').addEventListener('click', () => {
       $('q').value = '';
-      $('section').value = '';
       $('subject').value = '';
+      section = '';
       render();
       $('q').focus();
     });
+    $('prev').addEventListener('click', () => { $('date').value = shift($('date').value, -1); render(); });
+    $('next').addEventListener('click', () => { $('date').value = shift($('date').value, 1); render(); });
+    $('today').addEventListener('click', () => { $('date').value = today(); render(); });
 
-    $('date').value = new Date().toLocaleDateString('en-CA'); // today as YYYY-MM-DD, in your timezone
-    ['q', 'section', 'subject', 'date'].forEach((id) => $(id).addEventListener('input', render));
+    $('date').value = today();
+    ['q', 'subject', 'date'].forEach((id) => $(id).addEventListener('input', render));
     render();
     load();
   </script>
